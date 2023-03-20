@@ -31,6 +31,18 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/artists', (req, res) => {
+  const artists = getAllArtists();
+  console.log(artists)
+  res.json(artists)
+})
+
+app.post('/artists', (req, res) => {
+  const artist = addArtist(req.body);
+  res.status(201);
+  res.json(artist)
+})
+
 
 // DO NOT MODIFY
 if (require.main === module) {
