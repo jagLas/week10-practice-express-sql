@@ -31,6 +31,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/artists/latest/albums', (req, res) => {
+  const albums = getAlbumsForLatestArtist();
+  res.json(albums);
+})
+
+app.get('/artists/latest', (req, res) => {
+  const artist = getLatestArtist();
+  res.json(artist)
+})
+
 app.get('/artists', (req, res) => {
   const artists = getAllArtists();
   console.log(artists)
