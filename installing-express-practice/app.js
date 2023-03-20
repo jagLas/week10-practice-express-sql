@@ -3,7 +3,11 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.end('Hello again')
+    res.end('hi')
+})
+
+app.get('/status', (req, res) => {
+    res.end('The server is alive');
 })
 
 const port = 5000;
