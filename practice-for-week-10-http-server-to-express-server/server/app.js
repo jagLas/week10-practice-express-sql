@@ -47,3 +47,16 @@
 
 // STEP 1: Set port and listen for requests
 // Your code here
+
+const express = require('express');
+
+const app = express();
+const port = 5000;
+app.listen(port, ()=> console.log('server listening on', port));
+
+app.use(express.json());
+
+app.get('/users/:userId', (req, res) => {
+    const user = req.params.userId;
+    res.send(`user details for userId: ${user}`)
+})
