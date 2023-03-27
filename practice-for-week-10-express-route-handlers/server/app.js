@@ -41,6 +41,15 @@ app.get('/artists/latest', (req, res) => {
   res.json(artist)
 })
 
+app.get('/artists/:artistId/albums', (req, res) => {
+  const result = getAlbumsByArtistId(req.params.artistId);
+  res.json(result)
+})
+
+app.post('/artists/:artistId/albums', (req, res) => {
+  res.status(201).json(addAlbumByArtistId(req.params.artistId, req.body));
+})
+
 app.get('/artists/:artistId', (req, res) => {
   const artist = getArtistByArtistId(req.params.artistId);
   if (artist) {
@@ -78,6 +87,10 @@ app.post('/artists', (req, res) => {
   const artist = addArtist(req.body);
   res.status(201);
   res.json(artist)
+})
+
+app.get('/albums/:albumId', (req, res) => {
+  res.json(getAlbumByAlbumId(req.params.albumId))
 })
 
 
