@@ -50,6 +50,10 @@ app.post('/artists/:artistId/albums', (req, res) => {
   res.status(201).json(addAlbumByArtistId(req.params.artistId, req.body));
 })
 
+app.get('/artists/:artistId/songs', (req, res) => {
+  res.json(getSongsByArtistId(req.params.artistId));
+})
+
 app.get('/artists/:artistId', (req, res) => {
   const artist = getArtistByArtistId(req.params.artistId);
   if (artist) {
@@ -81,6 +85,14 @@ app.post('/artists', (req, res) => {
   res.json(artist)
 })
 
+app.get('/albums/:albumId/songs', (req, res) => {
+  res.json(getSongsByAlbumId(req.params.albumId));
+})
+
+app.post('/albums/:albumId/songs', (req, res) => {
+  res.status(201).json(addSongByAlbumId(req.params.albumId, req.body))
+})
+
 app.get('/albums/:albumId', (req, res) => {
   res.json(getAlbumByAlbumId(req.params.albumId))
 })
@@ -102,6 +114,21 @@ app.get('/albums', (req, res) => {
   res.json(filtered);
 })
 
+app.get('/songs/:songId', (req, res) => {
+  res.json(getSongBySongId(req.params.songId));
+})
+
+app.put('/songs/:songId', editSongBySongIdHandler);
+app.patch('/songs/:songId', editSongBySongIdHandler);
+
+app.delete('/songs/:songId', (req, res) => {
+  const song = getSongBySongId(req.params.songId);
+  if (song) {
+    deleteSongBySongId(req.params.songId);
+    res.json({message: "Successfully deleted"})
+  }
+})
+
 function editArtistRouteHandler (req, res) {
   const artistId = req.params.artistId;
   const artist = getArtistByArtistId(artistId);
@@ -112,6 +139,10 @@ function editArtistRouteHandler (req, res) {
 
 function editAlbumByAlbumIdHandler(req, res) {
   res.json(editAlbumByAlbumId(req.params.albumId, req.body))
+}
+
+function editSongBySongIdHandler (req, res) {
+  res.json(editSongBySongId(req.params.songId, req.body));
 }
 
 // DO NOT MODIFY
