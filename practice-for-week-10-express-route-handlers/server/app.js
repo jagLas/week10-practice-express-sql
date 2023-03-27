@@ -41,6 +41,33 @@ app.get('/artists/latest', (req, res) => {
   res.json(artist)
 })
 
+app.get('/artists/:artistId', (req, res) => {
+  const artist = getArtistByArtistId(req.params.artistId);
+  if (artist) {
+    res.json(artist);
+  }
+})
+
+app.delete('/artists/:artistId', (req, res) => {
+  console.log(req.params.artistId)
+  const result = deleteArtistByArtistId(req.params.artistId);
+  console.log(result)
+  if (result === undefined) {
+    res.json({"message":'Successfully deleted'});
+  }
+})
+
+app.put('/artists/:artistId', editArtistRouteHandler);
+app.patch('/artists/:artistId', editArtistRouteHandler);
+
+function editArtistRouteHandler (req, res) {
+  const artistId = req.params.artistId;
+  const artist = getArtistByArtistId(artistId);
+  if (artist) {
+    res.json(editArtistByArtistId(artistId, req.body));
+  }
+}
+
 app.get('/artists', (req, res) => {
   const artists = getAllArtists();
   console.log(artists)
