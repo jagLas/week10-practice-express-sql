@@ -104,6 +104,27 @@ app.get('/info', (req, res) => {
  *          { "id": 98765432, "name": "Honey Sweet", "year": 1967, "isFavorite": false }
  */
 // Your code here
+app.post('/movies', (req, res) => {
+    const object = {};
+    const randomInt = Math.ceil(Math.random() * 100000000);
+    console.log(req.body)
+    object.id = randomInt;
+    if (req.body.name) {
+        object.name = req.body.name;
+    }
+
+    if (req.body.year) {
+        object.year = parseInt(req.body.year);
+    }
+
+    if(req.body.favorite == 'on') {
+        object.isFavorite = true;
+    } else {
+        object.isFavorite = false;
+    }
+
+    res.json(object);
+})
 
 /**
  *  Advanced Bonus Phase B - Research how to return static
@@ -121,6 +142,8 @@ app.get('/info', (req, res) => {
  *      Test route: /logo.png
  */
 // Your code here
+
+app.use(express.static('public'))
 
 // DO NOT EDIT - Set port and listener
 if (require.main === module) {
