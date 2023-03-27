@@ -69,14 +69,6 @@ app.delete('/artists/:artistId', (req, res) => {
 app.put('/artists/:artistId', editArtistRouteHandler);
 app.patch('/artists/:artistId', editArtistRouteHandler);
 
-function editArtistRouteHandler (req, res) {
-  const artistId = req.params.artistId;
-  const artist = getArtistByArtistId(artistId);
-  if (artist) {
-    res.json(editArtistByArtistId(artistId, req.body));
-  }
-}
-
 app.get('/artists', (req, res) => {
   const artists = getAllArtists();
   console.log(artists)
@@ -93,6 +85,34 @@ app.get('/albums/:albumId', (req, res) => {
   res.json(getAlbumByAlbumId(req.params.albumId))
 })
 
+app.put('/albums/:albumId', editAlbumByAlbumIdHandler);
+app.patch('/albums/:albumId', editAlbumByAlbumIdHandler);
+
+app.delete('/albums/:albumId', (req, res) => {
+  const albumId = req.params.albumId;
+  const album = getAlbumByAlbumId(albumId);
+  if (album) {
+    deleteAlbumByAlbumId(albumId);
+    res.json({message: 'Successfully deleted'})
+  }
+})
+
+app.get('/albums', (req, res) => {
+  const filtered = getFilteredAlbums(req.query.startsWith);
+  res.json(filtered);
+})
+
+function editArtistRouteHandler (req, res) {
+  const artistId = req.params.artistId;
+  const artist = getArtistByArtistId(artistId);
+  if (artist) {
+    res.json(editArtistByArtistId(artistId, req.body));
+  }
+}
+
+function editAlbumByAlbumIdHandler(req, res) {
+  res.json(editAlbumByAlbumId(req.params.albumId, req.body))
+}
 
 // DO NOT MODIFY
 if (require.main === module) {
