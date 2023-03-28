@@ -1,6 +1,7 @@
 const express = require('express');
 require('express-async-errors')
 const app = express();
+const dogRouter = require('./routes/dogs.js')
 
 app.use('/static', express.static('assets'))
 app.use(express.json());
@@ -12,6 +13,8 @@ app.use((req, res, next) => {
   });
   next();
 })
+
+app.use('/dogs', dogRouter);
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
