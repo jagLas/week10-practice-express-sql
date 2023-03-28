@@ -1,10 +1,14 @@
 const express = require('express');
+require('express-async-errors')
 const app = express();
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
   res.json("Express server running. No content provided at root level. Please use another route.");
 });
+
+app.use('/static', express.static('assets'))
+app.use(express.json());
 
 // For testing express.json middleware
 app.post('/test-json', (req, res, next) => {
