@@ -2,13 +2,21 @@ const express = require('express');
 require('express-async-errors')
 const app = express();
 
+app.use('/static', express.static('assets'))
+app.use(express.json());
+app.use((req, res, next) => {
+  console.log(req.method, req.url);
+  res.on('finish', () => {
+    // read and log the status code of the response
+    console.log(res.statusCode);
+  });
+  next();
+})
+
 // For testing purposes, GET /
 app.get('/', (req, res) => {
   res.json("Express server running. No content provided at root level. Please use another route.");
 });
-
-app.use('/static', express.static('assets'))
-app.use(express.json());
 
 // For testing express.json middleware
 app.post('/test-json', (req, res, next) => {
@@ -22,6 +30,12 @@ app.post('/test-json', (req, res, next) => {
 app.get('/test-error', async (req, res) => {
   throw new Error("Hello World!")
 });
+
+app.use((req, res, next) => {
+  const err = new Error('The requested resource could not be found');
+  err.statusCode = 404;
+  next(err);
+})
 
 const port = 5000;
 app.listen(port, () => console.log('Server is listening on port', port));
