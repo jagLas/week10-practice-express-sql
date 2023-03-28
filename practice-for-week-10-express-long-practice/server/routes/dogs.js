@@ -82,20 +82,21 @@ const deleteDog = (req, res) => {
   res.json({ message: "success" });
 };
 
+const { application } = require('express');
 // ------------------------------  ROUTER ------------------------------  
 
 // Your code here
 const express = require('express')
 const router = express.Router();
+const foodRouter = require('./dog-foods.js')
 
 router.use('/:dogId', validateDogId);
-router.put('/*', validateDogInfo);
-router.post('/*', validateDogInfo)
+router.use('/:dogId/foods', foodRouter);
 
 router.get('/:dogId', getDogById);
-router.put('/:dogId', updateDog);
+router.put('/:dogId', validateDogInfo, updateDog);
 router.delete('/:dogId', deleteDog);
 router.get('/', getAllDogs);
-router.post('/', createDog);
+router.post('/', validateDogInfo, createDog);
 
 module.exports = router;
