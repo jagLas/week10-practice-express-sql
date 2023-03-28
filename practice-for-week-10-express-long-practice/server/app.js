@@ -3,8 +3,10 @@ require('express-async-errors')
 const app = express();
 const dogRouter = require('./routes/dogs.js')
 
-app.use('/static', express.static('assets'))
+app.use('/static', express.static('assets'));
+
 app.use(express.json());
+
 app.use((req, res, next) => {
   console.log(req.method, req.url);
   res.on('finish', () => {
@@ -40,5 +42,20 @@ app.use((req, res, next) => {
   next(err);
 })
 
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(err.statusCode || 500);
+  res.body = {
+    message: "Something went wrong",
+    statusCode: err.statusCode,
+  }
+
+  if(process.env.NODE_ENV !== 'production') {
+    res.body.stack = err.stack;
+  }
+  res.json(res.body);
+})
+
 const port = 5000;
 app.listen(port, () => console.log('Server is listening on port', port));
+console.log(process.env.NODE_ENV)
