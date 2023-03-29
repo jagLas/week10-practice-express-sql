@@ -1,0 +1,30 @@
+Table kids {
+  id int [pk]
+  name string
+  age int
+}
+
+Table toys {
+  id int [pk]
+  name string
+  kid_id int [ref: > kids.id]
+  manufacturer_id int [ref: > manufacturer.id]
+  date_purchased date
+}
+
+Table parents {
+  id int [pk]
+  name string
+}
+
+Table manufacturer {
+  id int [pk]
+  name string
+  founding_year year
+}
+
+Table parent_kid {
+  id int [pk]
+  parent_id int [ref: > parents.id]
+  kid_id int [ref: > kids.id]
+}
