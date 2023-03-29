@@ -1,0 +1,11 @@
+Table kids {
+  id int [pk]
+  name string
+  age int
+}
+
+Table toys {
+  id int [pk]
+  name string
+  kid_id int [ref: > kids.id]
+}
