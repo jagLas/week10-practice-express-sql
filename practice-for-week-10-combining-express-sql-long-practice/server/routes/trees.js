@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => {
 // Your code here
 router.get('/:id', (req, res, next) => {
     const sql = 'SELECT * FROM trees WHERE id = ?'
-    params = [req.params.id];
+    const params = [req.params.id];
     db.get(sql, params, (err, row) => {
         if (err) {
             next(err);
@@ -67,6 +67,18 @@ router.get('/:id', (req, res, next) => {
  *   - Value: success
  */
 // Your code here
+router.post ('/', (req, res, next) => {
+    const sql = `INSERT INTO trees (tree, location, height_ft, ground_circumference_ft)
+                    VALUES (?, ?, ?, ?)`;
+    const params = [req.body.name, req.body.location, req.body.height, req.body.size];
+    db.run(sql, params, (err) => {
+        if (err) {
+            next(err);
+        } else {
+            res.json({message: "success"})
+        }
+    })
+})
 
 /**
  * INTERMEDIATE PHASE 5 - DELETE a tree row from the database
